@@ -1,4 +1,4 @@
-package Epita.Marion_Romain.cryptofile
+package epita.marion_romain.cryptofile
 
 import org.junit.Assert.assertEquals
 import org.junit.Test
