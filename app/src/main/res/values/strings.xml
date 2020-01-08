@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">CryptoFile</string>
+    <string name="Keystore">Keystore.json</string>
 </resources>

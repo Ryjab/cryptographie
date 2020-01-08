@@ -1,5 +1,6 @@
 package epita.marion_romain.cryptofile.Crypto
 
+import epita.marion_romain.cryptofile.R
 import java.security.SecureRandom
 import javax.crypto.Cipher
 import javax.crypto.Mac
@@ -69,6 +70,19 @@ fun encryptCbc(plaintext: ByteArray, key: ByteArray): Ciphertext {
  *
  * @return Ciphertext and nonce
  */
+
+fun masterEncypt(plaintext: ByteArray, key: ByteArray) : ByteArray
+{
+    val cipher = Cipher.getInstance("AES/GCM/NoPadding")
+    val keySpec = SecretKeySpec(key, "AES")
+
+    val gcmSpec = GCMParameterSpec(128, R.string.IV.toString().toByteArray())
+
+    cipher.init(Cipher.ENCRYPT_MODE, keySpec, gcmSpec)
+
+    return cipher.doFinal(plaintext)
+}
+
 fun encryptGcm(plaintext: ByteArray, key: ByteArray): Ciphertext {
     val cipher = Cipher.getInstance("AES/GCM/NoPadding")
     val keySpec = SecretKeySpec(key, "AES")
@@ -149,3 +163,17 @@ fun decryptGcm(ciphertext: Ciphertext, key: ByteArray): ByteArray {
     val plaintext = cipher.doFinal(ciphertext.ciphertext)
     return plaintext
 }
+
+fun masterDecrypt(ciphertext: ByteArray, key: ByteArray) : ByteArray
+{
+    val cipher = Cipher.getInstance("AES/GCM/NoPadding")
+    val keySpec = SecretKeySpec(key, "AES")
+
+    val gcmSpec = GCMParameterSpec(128, R.string.IV.toString().toByteArray()) // 128 bit authentication tag
+
+    cipher.init(Cipher.DECRYPT_MODE, keySpec, gcmSpec)
+
+    return cipher.doFinal(ciphertext)
+}
+
+
