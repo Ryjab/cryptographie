@@ -7,22 +7,22 @@ import epita.marion_romain.cryptofile.R
 import java.io.File
 
 @ExperimentalStdlibApi
-class KeyStoreManager(){
+class KeyStoreManager(val masterkey: Masterkey){
 
-    var entryModel = EntryModel()
-    var keystore = File(R.string.Keystore.toString())
-    val masterkey = Masterkey("".toByteArray())
+    private var entryModel = EntryModel()
+    private var keystore = File(R.string.Keystore.toString())
 
     init {
         loadEntryArray()
     }
+
     @UseExperimental(ExperimentalStdlibApi::class)
     protected fun finalize() {
-        val cypher =  masterEncypt(keystore.inputStream().bufferedReader().readText().encodeToByteArray(), masterkey.get())
+        val cypher =  masterEncypt(keystore.readBytes(), masterkey.get())
         keystore.writeBytes("#Encrypted#\n".toByteArray() + cypher)
     }
 
-    fun saveEntryArray(){
+    private fun saveEntryArray(){
         if (!entryModel.models.isEmpty())
         {
             try {
@@ -38,15 +38,15 @@ class KeyStoreManager(){
     }
 
     @ExperimentalStdlibApi
-    fun loadEntryArray()
+    private fun loadEntryArray()
     {
         if (keystore.exists())
         {
             var t= keystore.readLines()
-            if (t.contains("#Encrypted#"))
+            if (t.contains("#Encrypted#\n"))
                 {
-                    keystore.readText().replace("#Encrypted#", "")
-                    keystore.writeBytes(masterDecrypt(keystore.readBytes(),masterkey.get()))
+                    keystore.readText().replace("#Encrypted#\n", "")
+                    keystore.writeText(masterDecrypt(keystore.readBytes(),masterkey.get()).toString())
                 }
             try {
                 var gson = Gson();
