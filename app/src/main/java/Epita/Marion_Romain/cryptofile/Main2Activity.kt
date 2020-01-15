@@ -1,10 +1,13 @@
 package epita.marion_romain.cryptofile
 
+import Epita.Marion_Romain.cryptofile.MyAdapter
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import epita.marion_romain.cryptofile.Crypto.FileManager
 import epita.marion_romain.cryptofile.Crypto.KeyStoreManager
 import epita.marion_romain.cryptofile.Crypto.Masterkey
@@ -14,14 +17,37 @@ import java.lang.Exception
 
 
 class Main2Activity : AppCompatActivity(), View.OnClickListener {
-    lateinit var ks : KeyStoreManager
-    lateinit var fm : FileManager
+
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var viewAdapter: RecyclerView.Adapter<*>
+    private lateinit var viewManager: RecyclerView.LayoutManager
+
+    private lateinit var ks : KeyStoreManager
+    private lateinit var fm : FileManager
     // Activité ou on scroll les fichiers existants et ou on en ajoute de nouveaux.
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main2)
         addfilebutton.setOnClickListener(this@Main2Activity)
 
+        /*
+            recyclerview item
+        */
+        viewManager = LinearLayoutManager(this)
+        viewAdapter = MyAdapter(myDataset)
+
+        recyclerView = findViewById<RecyclerView>(R.id.my_recycler_view).apply {
+            // use this setting to improve performance if you know that changes
+            // in content do not change the layout size of the RecyclerView
+            setHasFixedSize(true)
+
+            // use a linear layout manager
+            layoutManager = viewManager
+
+            // specify an viewAdapter (see also next example)
+            adapter = viewAdapter
+        }
+        // end of recyclerview item
 
         var originIntent = intent
         // extract data from the intent
