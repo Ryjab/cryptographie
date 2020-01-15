@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         var originIntent = intent
         // extract data from the intent
         try {
-            var message = originIntent.getStringExtra("MESSAGE").toByteArray()
+            var message = originIntent.getStringExtra("MESSAGE")
             Toast.makeText(this,message.toString(),Toast.LENGTH_SHORT).show()
         }
         catch (E : Exception){}
