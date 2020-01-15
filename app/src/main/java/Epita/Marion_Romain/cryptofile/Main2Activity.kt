@@ -27,10 +27,11 @@ class Main2Activity : AppCompatActivity(), View.OnClickListener {
         // extract data from the intent
         var mk = Masterkey(originIntent.getStringExtra("MESSAGE").toByteArray())
         try {
-            ks = KeyStoreManager(mk)
+            ks = KeyStoreManager(mk, this)
             fm = FileManager(ks)
         }
         catch (E : Exception){
+            Log.println(Log.ERROR, "Main2Activity",E.toString())
             var explicitIntent = Intent(this, MainActivity::class.java)
             explicitIntent.putExtra("MESSAGE", "Password incorrect")
             startActivity(explicitIntent)

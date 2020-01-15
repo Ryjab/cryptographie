@@ -1,15 +1,17 @@
 package epita.marion_romain.cryptofile.Crypto
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.util.Log
 import com.google.gson.Gson
-import epita.marion_romain.cryptofile.R
 import java.io.File
+import java.security.MessageDigest
 
-class KeyStoreManager(val masterkey: Masterkey){
 
+
+class KeyStoreManager(val masterkey: Masterkey, context: Context){
     private var entryModel = EntryModel()
-    private var keystore = File(R.string.Keystore.toString())
+    private var keystore = File(context.filesDir,"keystore.json")
 
     init {
         loadEntryArray()

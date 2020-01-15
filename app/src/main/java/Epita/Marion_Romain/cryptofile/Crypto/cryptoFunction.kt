@@ -1,12 +1,25 @@
 package epita.marion_romain.cryptofile.Crypto
 
 import epita.marion_romain.cryptofile.R
+import java.security.MessageDigest
 import java.security.SecureRandom
+import java.security.Security
 import javax.crypto.Cipher
 import javax.crypto.Mac
 import javax.crypto.spec.GCMParameterSpec
 import javax.crypto.spec.IvParameterSpec
 import javax.crypto.spec.SecretKeySpec
+
+
+private fun getSHA(key : ByteArray): ByteArray {
+    // Static getInstance method is called with hashing SHA
+    val md = MessageDigest.getInstance("SHA-256")
+
+    // digest() method called
+    // to calculate message digest of an input
+    // and return array of byte
+    return md.digest(key)
+}
 
 /**
  * Be sure to use a SecureRandom!
@@ -73,12 +86,16 @@ fun encryptCbc(plaintext: ByteArray, key: ByteArray): Ciphertext {
 
 fun masterEncypt(plaintext: ByteArray, key: ByteArray) : ByteArray
 {
-    val cipher = Cipher.getInstance("AES/GCM/NoPadding")
-    val keySpec = SecretKeySpec(key, "AES")
+    Security.setProperty("crypto.policy", "unlimited");
+    if (plaintext.isEmpty())
+    {
+        return plaintext
+    }
 
-    val gcmSpec = GCMParameterSpec(128, R.string.IV.toString().toByteArray())
+    val cipher = Cipher.getInstance("AES", "BC")
+    val keySpec = SecretKeySpec(getSHA(key), "AES")
 
-    cipher.init(Cipher.ENCRYPT_MODE, keySpec, gcmSpec)
+    cipher.init(Cipher.ENCRYPT_MODE, keySpec, IvParameterSpec(ByteArray(cipher.blockSize)))
 
     return cipher.doFinal(plaintext)
 }
@@ -166,12 +183,16 @@ fun decryptGcm(ciphertext: Ciphertext, key: ByteArray): ByteArray {
 
 fun masterDecrypt(ciphertext: ByteArray, key: ByteArray) : ByteArray
 {
-    val cipher = Cipher.getInstance("AES/GCM/NoPadding")
-    val keySpec = SecretKeySpec(key, "AES")
+    Security.setProperty("crypto.policy", "unlimited");
+    if (ciphertext.isEmpty())
+    {
+        return ciphertext
+    }
 
-    val gcmSpec = GCMParameterSpec(128, R.string.IV.toString().toByteArray()) // 128 bit authentication tag
+    val cipher = Cipher.getInstance("AES", "BC")
+    val keySpec = SecretKeySpec(getSHA(key), "AES")
 
-    cipher.init(Cipher.DECRYPT_MODE, keySpec, gcmSpec)
+    cipher.init(Cipher.DECRYPT_MODE, keySpec, IvParameterSpec(ByteArray(cipher.blockSize)))
 
     return cipher.doFinal(ciphertext)
 }
