@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         var originIntent = intent
         // extract data from the intent
         try {
-            var message = originIntent.getStringExtra("MESSAGE").toByteArray()
+            var message = originIntent.getStringExtra("MESSAGE")
             Toast.makeText(this,message.toString(),Toast.LENGTH_SHORT).show()
         }
         catch (E : Exception){}
@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 if (passwordin.text.isNotEmpty() && passwordin.text.isNotBlank())
                 {
                     var explicitIntent = Intent(this, Main2Activity::class.java)
-                    explicitIntent.putExtra("MESSAGE", passwordin.text)
+                    explicitIntent.putExtra("MESSAGE", passwordin.text.toString())
                     startActivity(explicitIntent)
                 }
                 else{
