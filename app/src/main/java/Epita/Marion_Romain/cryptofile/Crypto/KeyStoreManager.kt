@@ -16,6 +16,7 @@ class KeyStoreManager(val masterkey: Masterkey){
     }
 
     protected fun finalize() {
+        saveEntryArray()
         val cypher =  masterEncypt(keystore.readBytes(), masterkey.get())
         keystore.writeBytes("#Encrypted#\n".toByteArray() + cypher)
     }
@@ -35,22 +36,37 @@ class KeyStoreManager(val masterkey: Masterkey){
         }
     }
 
+    fun initKeystore()
+    {
+        try {
+            val cypher =  masterEncypt(keystore.readBytes(), masterkey.get())
+            keystore.writeBytes("#Encrypted#\n".toByteArray() + cypher)
+        }catch (E : Exception)
+        {
+            Log.println(Log.ERROR, "initKeystore", E.toString())
+        }
+    }
+
     private fun loadEntryArray()
     {
         if (keystore.exists())
         {
             var t= keystore.readLines()
             if (t.contains("#Encrypted#\n"))
-                {
-                    keystore.readText().replace("#Encrypted#\n", "")
-                    keystore.writeText(masterDecrypt(keystore.readBytes(),masterkey.get()).toString())
-                }
-            try {
-                var gson = Gson();
-                entryModel = gson.fromJson(keystore.reader().readText(), EntryModel::class.java);
-            }catch (E : Exception)
             {
-                Log.println(Log.ERROR, "KeyStoreManager", E.toString())
+                keystore.readText().replace("#Encrypted#\n", "")
+                keystore.writeText(masterDecrypt(keystore.readBytes(),masterkey.get()).toString())
+                try {
+                    var gson = Gson();
+                    entryModel = gson.fromJson(keystore.reader().readText(), EntryModel::class.java);
+                }catch (E : Exception)
+                {
+                    Log.println(Log.ERROR, "KeyStoreManager", E.toString())
+                }
+            }
+            else
+            {
+                initKeystore()
             }
         }
         else
