@@ -6,7 +6,6 @@ import com.google.gson.Gson
 import epita.marion_romain.cryptofile.R
 import java.io.File
 
-@ExperimentalStdlibApi
 class KeyStoreManager(val masterkey: Masterkey){
 
     private var entryModel = EntryModel()
@@ -16,7 +15,6 @@ class KeyStoreManager(val masterkey: Masterkey){
         loadEntryArray()
     }
 
-    @UseExperimental(ExperimentalStdlibApi::class)
     protected fun finalize() {
         val cypher =  masterEncypt(keystore.readBytes(), masterkey.get())
         keystore.writeBytes("#Encrypted#\n".toByteArray() + cypher)
@@ -37,7 +35,6 @@ class KeyStoreManager(val masterkey: Masterkey){
         }
     }
 
-    @ExperimentalStdlibApi
     private fun loadEntryArray()
     {
         if (keystore.exists())

@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 if (passwordin.text.isNotEmpty() && passwordin.text.isNotBlank())
                 {
                     var explicitIntent = Intent(this, Main2Activity::class.java)
-                    explicitIntent.putExtra("MESSAGE", passwordin.text)
+                    explicitIntent.putExtra("MESSAGE", passwordin.text.toString())
                     startActivity(explicitIntent)
                 }
                 else{
