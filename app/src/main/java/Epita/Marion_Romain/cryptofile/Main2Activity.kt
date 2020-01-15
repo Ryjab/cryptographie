@@ -5,14 +5,17 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import epita.marion_romain.cryptofile.Crypto.FileManager
 import epita.marion_romain.cryptofile.Crypto.KeyStoreManager
 import epita.marion_romain.cryptofile.Crypto.Masterkey
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main2.*
 import java.lang.Exception
 
+@ExperimentalStdlibApi
 class Main2Activity : AppCompatActivity(), View.OnClickListener {
-
+    lateinit var ks : KeyStoreManager
+    lateinit var fm : FileManager
     // Activité ou on scroll les fichiers existants et ou on en ajoute de nouveaux.
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,7 +27,8 @@ class Main2Activity : AppCompatActivity(), View.OnClickListener {
         // extract data from the intent
         var mk = Masterkey(originIntent.getStringExtra("MESSAGE").toByteArray())
         try {
-            //var ks = KeyStoreManager(mk)
+            ks = KeyStoreManager(mk)
+            fm = FileManager(ks)
         }
         catch (E : Exception){
             var explicitIntent = Intent(this, MainActivity::class.java)
