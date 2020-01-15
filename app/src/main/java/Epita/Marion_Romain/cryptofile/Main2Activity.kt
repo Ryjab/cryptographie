@@ -12,7 +12,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main2.*
 import java.lang.Exception
 
-@ExperimentalStdlibApi
+
 class Main2Activity : AppCompatActivity(), View.OnClickListener {
     lateinit var ks : KeyStoreManager
     lateinit var fm : FileManager

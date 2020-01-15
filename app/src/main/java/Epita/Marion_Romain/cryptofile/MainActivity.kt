@@ -11,7 +11,7 @@ import epita.marion_romain.cryptofile.Crypto.Masterkey
 import kotlinx.android.synthetic.main.activity_main.*
 import java.lang.Exception
 
-@ExperimentalStdlibApi
+
 class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {

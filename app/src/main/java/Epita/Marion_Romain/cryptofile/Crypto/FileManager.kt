@@ -1,6 +1,6 @@
 package epita.marion_romain.cryptofile.Crypto
 
-@ExperimentalStdlibApi
+
 class FileManager (val keyStoreManager: KeyStoreManager)
 {
     fun addfile (filePath : String)
