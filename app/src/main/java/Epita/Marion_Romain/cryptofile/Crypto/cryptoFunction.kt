@@ -1,6 +1,6 @@
 package epita.marion_romain.cryptofile.Crypto
 
-import java.security.MessageDigest
+import android.util.Base64
 import java.security.SecureRandom
 import javax.crypto.Cipher
 import javax.crypto.Mac
@@ -12,6 +12,8 @@ import javax.crypto.spec.SecretKeySpec
  * Be sure to use a SecureRandom!
  */
 val secureRandom = SecureRandom()
+
+var ivBytes = byteArrayOf(5, 58, 39, 88, 17, 46, 34, 25, 81, 46, 84, 21, 36, 74, 55, 89)
 
 /**
  * Generates a key with [sizeInBits] bits.
@@ -78,13 +80,35 @@ fun masterEncypt(plaintext: ByteArray, key: ByteArray) : ByteArray
         return plaintext
     }
 
-    val cipher = Cipher.getInstance("AES", "BC")
+    val cipher = Cipher.getInstance("AES/CBC/PKCS5Padding")
     val keySpec = SecretKeySpec(key, "AES")
 
-    cipher.init(Cipher.ENCRYPT_MODE, keySpec, IvParameterSpec(ByteArray(cipher.blockSize)))
+    val ivSpec = IvParameterSpec(ivBytes)
 
-    return cipher.doFinal(plaintext)
+    cipher.init(Cipher.ENCRYPT_MODE, keySpec, ivSpec)
+
+    val ciphertext = cipher.doFinal(plaintext)
+    val ret = Base64.encode(ciphertext, Base64.DEFAULT);
+    return ret
 }
+
+fun masterDecrypt(ciphertext: ByteArray, key: ByteArray) : ByteArray
+{
+    if (ciphertext.isEmpty())
+    {
+        return ciphertext
+    }
+
+    val cipher = Cipher.getInstance("AES/CBC/PKCS5Padding")
+    val keySpec = SecretKeySpec(key, "AES")
+    val ivSpec = IvParameterSpec(ivBytes)
+
+    cipher.init(Cipher.DECRYPT_MODE, keySpec, ivSpec)
+
+    val plaintext = cipher.doFinal(Base64.decode(ciphertext, Base64.DEFAULT))
+    return plaintext
+}
+
 
 fun encryptGcm(plaintext: ByteArray, key: ByteArray): Ciphertext {
     val cipher = Cipher.getInstance("AES/GCM/NoPadding")
@@ -167,19 +191,5 @@ fun decryptGcm(ciphertext: Ciphertext, key: ByteArray): ByteArray {
     return plaintext
 }
 
-fun masterDecrypt(ciphertext: ByteArray, key: ByteArray) : ByteArray
-{
-    if (ciphertext.isEmpty())
-    {
-        return ciphertext
-    }
-
-    val cipher = Cipher.getInstance("AES", "BC")
-    val keySpec = SecretKeySpec(key, "AES")
-
-    cipher.init(Cipher.DECRYPT_MODE, keySpec, IvParameterSpec(ByteArray(cipher.blockSize)))
-
-    return cipher.doFinal(ciphertext)
-}
 
 

@@ -3,18 +3,15 @@ package epita.marion_romain.cryptofile.Crypto
 import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Log
-import android.view.Display
 import com.google.gson.Gson
 import java.io.File
 
-
-
-
-class KeyStoreManager(val masterkey: Masterkey, context: Context){
+class KeyStoreManager(val masterkey: Masterkey, private val context: Context){
     var entryModel = EntryModel()
     private var keystore = File(context.filesDir,"keystore.json")
 
     init {
+        keystore.writeText("Ceci est un test")
         loadEntryArray()
     }
 
@@ -39,17 +36,21 @@ class KeyStoreManager(val masterkey: Masterkey, context: Context){
         }
     }
 
-    fun initKeystore()
-    {
+    fun initKeystore() {
         try {
-            val cypher =  masterEncypt(keystore.readBytes(), masterkey.get())
+            println(keystore.readText())
+            println("#Chiffrement#")
+            val cypher = masterEncypt(keystore.readBytes(), masterkey.get())
+            println("cypher = ${cypher}")
             keystore.writeBytes("#Encrypted#\n".toByteArray() + cypher)
-        }catch (E : Exception)
-        {
+            println("#Dechiffrement#")
+            val text = masterDecrypt(cypher, masterkey.get())
+            println("clear text = ${String(text, charset("UTF-8"))}")
+
+        } catch (E: Exception) {
             Log.println(Log.ERROR, "initKeystore", E.toString())
         }
     }
-
 
     fun loadEntryArray()
     {
@@ -58,8 +59,8 @@ class KeyStoreManager(val masterkey: Masterkey, context: Context){
             var t= keystore.readLines()
             if (t.contains("#Encrypted#\n"))
             {
-                keystore.readText().replace("#Encrypted#\n", "")
-                keystore.writeText(masterDecrypt(keystore.readBytes(),masterkey.get()).toString())
+                var text = keystore.readText().replace("#Encrypted#\n", "")
+                keystore.writeText(masterDecrypt(text.toByteArray(),masterkey.get()).toString())
                 try {
                     var gson = Gson();
                     entryModel = gson.fromJson(keystore.reader().readText(), EntryModel::class.java);

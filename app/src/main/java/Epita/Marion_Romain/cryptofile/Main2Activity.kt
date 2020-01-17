@@ -40,8 +40,14 @@ class Main2Activity : AppCompatActivity(), View.OnClickListener {
         // extract data from the intent
         var mk = Masterkey(originIntent.getStringExtra("MESSAGE").toByteArray(), this)
         try {
-            ks = KeyStoreManager(mk, this)
-            var fm = FileManager(ks, this)
+            if (mk.checkKey()) {
+                ks = KeyStoreManager(mk, this)
+                var fm = FileManager(ks, this)
+            }
+            else
+            {
+                throw error("Password incorrect in input")
+            }
         }
         catch (E : Exception){
             Log.println(Log.ERROR, "Main2Activity",E.toString())
