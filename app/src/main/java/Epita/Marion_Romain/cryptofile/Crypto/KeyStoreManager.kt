@@ -3,6 +3,7 @@ package epita.marion_romain.cryptofile.Crypto
 import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Log
+import android.view.Display
 import com.google.gson.Gson
 import java.io.File
 import java.security.MessageDigest
@@ -10,7 +11,7 @@ import java.security.MessageDigest
 
 
 class KeyStoreManager(val masterkey: Masterkey, context: Context){
-    private var entryModel = EntryModel()
+    var entryModel = EntryModel()
     private var keystore = File(context.filesDir,"keystore.json")
 
     init {
@@ -49,7 +50,8 @@ class KeyStoreManager(val masterkey: Masterkey, context: Context){
         }
     }
 
-    private fun loadEntryArray()
+
+    fun loadEntryArray()
     {
         if (keystore.exists())
         {
@@ -97,5 +99,7 @@ class KeyStoreManager(val masterkey: Masterkey, context: Context){
             Log.println(Log.ERROR, "KeyStoreManager", E.toString())
         }
     }
+
+
 
 }

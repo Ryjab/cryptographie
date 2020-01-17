@@ -11,7 +11,7 @@ import java.io.FileOutputStream
 class FileManager (val keyStoreManager: KeyStoreManager, context: Context)
 {
     var listFiles = ArrayList<File>()
-    var Documents = File("/Documents")
+    var Documents = File("/Documents/")
     /*init {
         if (!Documents.exists())
         {
@@ -65,4 +65,5 @@ class FileManager (val keyStoreManager: KeyStoreManager, context: Context)
         val model : Model = Model(filePath, generateKey(128), false)
         keyStoreManager.removeEntry(model.file_name)
     }
+
 }

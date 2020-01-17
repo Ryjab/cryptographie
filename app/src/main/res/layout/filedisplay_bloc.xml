@@ -10,24 +10,17 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/Filedisplay_filename"
+            android:id="@+id/filename"
             android:layout_width="197dp"
             android:layout_height="wrap_content"
             android:text="File" />
 
-        <CheckBox
-            android:id="@+id/filedisplay_status"
-            android:layout_width="21dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Encrypted" />
-
         <Button
-            android:id="@+id/filedisplay_en_dc"
+            android:id="@+id/encryptbutton"
             android:layout_width="32dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Encrypt / decrypt" />
+            android:text="Encrypt" />
 
     </LinearLayout>
 
