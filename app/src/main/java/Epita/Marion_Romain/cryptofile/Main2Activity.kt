@@ -34,19 +34,21 @@ class Main2Activity : AppCompatActivity(), View.OnClickListener {
             recyclerview item
         */
         viewManager = LinearLayoutManager(this)
-        viewAdapter = MyAdapter(myDataset)
+       // viewAdapter = MyAdapter(myDataset)
 
+        /*
         recyclerView = findViewById<RecyclerView>(R.id.my_recycler_view).apply {
+         */
             // use this setting to improve performance if you know that changes
             // in content do not change the layout size of the RecyclerView
-            setHasFixedSize(true)
+         /*   setHasFixedSize(true)
 
             // use a linear layout manager
             layoutManager = viewManager
 
             // specify an viewAdapter (see also next example)
             adapter = viewAdapter
-        }
+        }*/
         // end of recyclerview item
 
         var originIntent = intent
@@ -54,7 +56,7 @@ class Main2Activity : AppCompatActivity(), View.OnClickListener {
         var mk = Masterkey(originIntent.getStringExtra("MESSAGE").toByteArray())
         try {
             ks = KeyStoreManager(mk, this)
-            fm = FileManager(ks)
+            fm = FileManager(ks, this)
         }
         catch (E : Exception){
             Log.println(Log.ERROR, "Main2Activity",E.toString())
