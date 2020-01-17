@@ -1,4 +1,4 @@
-package Epita.Marion_Romain.cryptofile
+package Epita.Marion_Romain.cryptofile.Crypto
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

@@ -1,6 +1,6 @@
 package epita.marion_romain.cryptofile
 
-import Epita.Marion_Romain.cryptofile.MyAdapter
+//import epita.marion_romain.cryptofile.MyAdapter
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -18,9 +18,9 @@ import java.lang.Exception
 
 class Main2Activity : AppCompatActivity(), View.OnClickListener {
 
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var viewAdapter: RecyclerView.Adapter<*>
-    private lateinit var viewManager: RecyclerView.LayoutManager
+    //private lateinit var recyclerView: RecyclerView
+    //private lateinit var viewAdapter: RecyclerView.Adapter<*>
+    //private lateinit var viewManager: RecyclerView.LayoutManager
 
     private lateinit var ks : KeyStoreManager
     private lateinit var fm : FileManager
@@ -33,7 +33,7 @@ class Main2Activity : AppCompatActivity(), View.OnClickListener {
         /*
             recyclerview item
         */
-        viewManager = LinearLayoutManager(this)
+        //viewManager = LinearLayoutManager(this)
        // viewAdapter = MyAdapter(myDataset)
 
         /*
