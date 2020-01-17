@@ -63,6 +63,7 @@ class KeyStoreManager(val masterkey: Masterkey, context: Context){
                     entryModel = gson.fromJson(keystore.reader().readText(), EntryModel::class.java);
                 }catch (E : Exception)
                 {
+                    //potential bad masterkey entered
                     Log.println(Log.ERROR, "KeyStoreManager", E.toString())
                 }
             }

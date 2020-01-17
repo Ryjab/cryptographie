@@ -86,7 +86,6 @@ fun encryptCbc(plaintext: ByteArray, key: ByteArray): Ciphertext {
 
 fun masterEncypt(plaintext: ByteArray, key: ByteArray) : ByteArray
 {
-    Security.setProperty("crypto.policy", "unlimited");
     if (plaintext.isEmpty())
     {
         return plaintext
@@ -183,7 +182,6 @@ fun decryptGcm(ciphertext: Ciphertext, key: ByteArray): ByteArray {
 
 fun masterDecrypt(ciphertext: ByteArray, key: ByteArray) : ByteArray
 {
-    Security.setProperty("crypto.policy", "unlimited");
     if (ciphertext.isEmpty())
     {
         return ciphertext
