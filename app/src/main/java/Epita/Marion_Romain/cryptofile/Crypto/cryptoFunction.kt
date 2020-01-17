@@ -1,25 +1,12 @@
 package epita.marion_romain.cryptofile.Crypto
 
-import epita.marion_romain.cryptofile.R
 import java.security.MessageDigest
 import java.security.SecureRandom
-import java.security.Security
 import javax.crypto.Cipher
 import javax.crypto.Mac
 import javax.crypto.spec.GCMParameterSpec
 import javax.crypto.spec.IvParameterSpec
 import javax.crypto.spec.SecretKeySpec
-
-
-private fun getSHA(key : ByteArray): ByteArray {
-    // Static getInstance method is called with hashing SHA
-    val md = MessageDigest.getInstance("SHA-256")
-
-    // digest() method called
-    // to calculate message digest of an input
-    // and return array of byte
-    return md.digest(key)
-}
 
 /**
  * Be sure to use a SecureRandom!
@@ -92,7 +79,7 @@ fun masterEncypt(plaintext: ByteArray, key: ByteArray) : ByteArray
     }
 
     val cipher = Cipher.getInstance("AES", "BC")
-    val keySpec = SecretKeySpec(getSHA(key), "AES")
+    val keySpec = SecretKeySpec(key, "AES")
 
     cipher.init(Cipher.ENCRYPT_MODE, keySpec, IvParameterSpec(ByteArray(cipher.blockSize)))
 
@@ -188,7 +175,7 @@ fun masterDecrypt(ciphertext: ByteArray, key: ByteArray) : ByteArray
     }
 
     val cipher = Cipher.getInstance("AES", "BC")
-    val keySpec = SecretKeySpec(getSHA(key), "AES")
+    val keySpec = SecretKeySpec(key, "AES")
 
     cipher.init(Cipher.DECRYPT_MODE, keySpec, IvParameterSpec(ByteArray(cipher.blockSize)))
 

@@ -12,13 +12,13 @@ class FileManager (val keyStoreManager: KeyStoreManager, context: Context)
 {
     var listFiles = ArrayList<File>()
     var Documents = File("/Documents")
-    /*init {
+    init {
         if (!Documents.exists())
         {
             Documents.mkdirs()
         }
         FileManagerInit()
-    }*/
+    }
 
     private fun FileManagerInit()
     {

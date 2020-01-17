@@ -6,12 +6,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import epita.marion_romain.cryptofile.Crypto.FileManager
 import epita.marion_romain.cryptofile.Crypto.KeyStoreManager
 import epita.marion_romain.cryptofile.Crypto.Masterkey
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main2.*
 import java.lang.Exception
 
@@ -53,8 +50,11 @@ class Main2Activity : AppCompatActivity(), View.OnClickListener {
 
         var originIntent = intent
         // extract data from the intent
-        var mk = Masterkey(originIntent.getStringExtra("MESSAGE").toByteArray())
+        var mk = Masterkey(originIntent.getStringExtra("MESSAGE").toByteArray(), this)
         try {
+            if (!mk.checkKey()) {
+                throw error("incorrect password")
+            }
             ks = KeyStoreManager(mk, this)
             fm = FileManager(ks, this)
         }
