@@ -8,14 +8,16 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+
 import android.widget.AdapterView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+
+
 import epita.marion_romain.cryptofile.Crypto.FileManager
 import epita.marion_romain.cryptofile.Crypto.KeyStoreManager
 import epita.marion_romain.cryptofile.Crypto.Masterkey
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main2.*
 import java.lang.Exception
 
@@ -36,7 +38,7 @@ class Main2Activity : AppCompatActivity(), View.OnClickListener {
         addfilebutton.setOnClickListener(this@Main2Activity)
         var originIntent = intent
         // extract data from the intent
-        var mk = Masterkey(originIntent.getStringExtra("MESSAGE").toByteArray())
+        var mk = Masterkey(originIntent.getStringExtra("MESSAGE").toByteArray(), this)
         try {
             ks = KeyStoreManager(mk, this)
             var fm = FileManager(ks, this)
@@ -69,6 +71,7 @@ class Main2Activity : AppCompatActivity(), View.OnClickListener {
         }*/
         // end of recyclerview item
 
+
         val myItemClickListener = View.OnClickListener {
             // we retrieve the row position from its tag
             val position = it.tag as Int
@@ -79,6 +82,23 @@ class Main2Activity : AppCompatActivity(), View.OnClickListener {
                 "Clicked " + clickedItem.file_name,
                 Toast.LENGTH_SHORT)
                 .show()
+
+       /* var originIntent = intent
+        // extract data from the intent
+        var mk = Masterkey(originIntent.getStringExtra("MESSAGE").toByteArray(), this)
+        try {
+            if (!mk.checkKey()) {
+                throw error("incorrect password")
+            }
+            ks = KeyStoreManager(mk, this)
+            fm = FileManager(ks, this)
+        }
+        catch (E : Exception){
+            Log.println(Log.ERROR, "Main2Activity",E.toString())
+            var explicitIntent = Intent(this, MainActivity::class.java)
+            explicitIntent.putExtra("MESSAGE", "Password incorrect")
+            startActivity(explicitIntent)*/
+
         }
 // as with the listview, attach an adapter and provide some data
         val recyclerAdapter = CustomRecyclerAdapter(this@Main2Activity, ks.entryModel, myItemClickListener)
